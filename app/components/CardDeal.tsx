@@ -15,11 +15,12 @@ const CardDeal = () => (
       viewport={{ once: true }}
     >
       <h2 className="heading2">
-        Set up your own MockMate <br className="sm:block hidden" /> in few easy
+        Find a better card deal <br className="sm:block hidden" /> in few easy
         steps.
       </h2>
       <p className="paragraph max-w-[470px] mt-5">
-        Customize MockMate to suit your areas of interest, set UI choices and content preferences.
+        Arcu tortor, purus in mattis at sed integer faucibus. Aliquet quis
+        aliquet eget mauris tortor.ç Aliquet ultrices ac, ametau.
       </p>
 
       <Button styles={`mt-10`} />

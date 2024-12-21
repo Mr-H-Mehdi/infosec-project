@@ -32,33 +32,29 @@ import {
       id: "clients",
       title: "Clients",
     },
-    // {
-    //   id: "Login",
-    //   title: "Login",
-    // },
   ];
   
   export const features = [
     {
       id: "feature-1",
       icon: star,
-      title: "Tailored",
+      title: "Rewards",
       content:
-        "MockMate is AI driven, that makes it suit your needs perfectly.",
+        "The best credit cards offer some tantalizing combinations of promotions and prizes",
     },
     {
       id: "feature-2",
       icon: shield,
       title: "100% Secured",
       content:
-        "We take proactive steps make sure your information is secure.",
+        "We take proactive steps make sure your information and transactions are secure.",
     },
     {
       id: "feature-3",
       icon: send,
-      title: "Real-time Feedback",
+      title: "Balance Transfer",
       content:
-        "MockMate provides you with detailed, comprehensive feedback.",
+        "A balance transfer credit card can save you a lot of money in interest charges.",
     },
   ];
   
@@ -66,25 +62,25 @@ import {
     {
       id: "feedback-1",
       content:
-        "Fire is always inside oneself but the first law of Newton holds. MockMate is the moving cause of your movement, that's it.",
-      name: "Hussain M.K.",
-      title: "UI designer, Web dev",
-      img: people02,
+        "Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.",
+      name: "Herman Jensen",
+      title: "Founder & Leader",
+      img: people01,
     },
     {
       id: "feedback-2",
       content:
-        "MockMate sirf qismat walon ko milta hai. Job milne ke baad bhi isko use kr rha hoon, maza aa rha hai.",
-      name: "Taimoor Surdor",
-      title: "ML engineer",
-      img: people01,
+        "Money makes your life easier. If you're lucky to have it, you're lucky.",
+      name: "Steve Mark",
+      title: "Founder & Leader",
+      img: people02,
     },
     {
       id: "feedback-3",
       content:
-        "MockMate is the proof of the lovely and creative mind of it's UI developer. It is revolutionizing by providing itself to the world, how magnificent!.",
-      name: "Shums Maiel",
-      title: "App developer",
+        "It is usually people in the money business, finance, and international trade that are really rich.",
+      name: "Kenn Gallagher",
+      title: "Founder & Leader",
       img: people03,
     },
   ];
@@ -97,13 +93,13 @@ import {
     },
     {
       id: "stats-2",
-      title: "Trusted by Companies",
-      value: "13+",
+      title: "Trusted by Company",
+      value: "230+",
     },
     {
       id: "stats-3",
-      title: "Questions Generated",
-      value: "500+",
+      title: "Transaction",
+      value: "$230M+",
     },
   ];
   

@@ -16,17 +16,17 @@ const Hero = () => {
         viewport={{ once: true }}
       >
         <div className="flex flex-row items-center py-[6px] px-4 bg-discount-gradient rounded-[10px] mb-2">
-          {/* <Image src={discount} alt="discount" width={32} height={32} priority={true} /> */}
+          <Image src={discount} alt="discount" width={32} height={32} priority={true} />
           <p className="paragraph ml-2">
-            <span className="text-white">Check Out </span> New {" "}
-            <span className="text-white">Web Dev </span>Mock
+            <span className="text-white">20%</span> Discount For{" "}
+            <span className="text-white">1 Month</span> Account
           </p>
         </div>
 
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="flex-1 font-poppins font-semibold ss:text-[72px] text-[52px] text-white ss:leading-[100.8px] leading-[75px]">
-            Let's <br className="sm:block hidden" />{" "}
-            <span className="text-gradient">Prepare For </span>{" "}
+            The Next <br className="sm:block hidden" />{" "}
+            <span className="text-gradient">Generation</span>{" "}
           </h1>
           <div className="ss:flex hidden md:mr-4 mr-0">
             <GetStarted />
@@ -34,10 +34,12 @@ const Hero = () => {
         </div>
 
         <h1 className="font-poppins font-semibold ss:text-[68px] text-[52px] text-white ss:leading-[100.8px] leading-[75px] w-full">
-          Your Next Venture.
+          Payment Method.
         </h1>
         <p className="paragraph max-w-[470px] mt-5">
-          MockMate is an AI powered mock interview platform which helps you simulate real life scenario and be confident in your preparation.
+          Our team of experts uses a methodology to identify the credit cards
+          most likely to fit your needs. We examine annual percentage rates,
+          annual fees.
         </p>
       </motion.div>
 
@@ -53,7 +55,7 @@ const Hero = () => {
           alt="billing"
           width={0}
           height={0}
-          className="sm:w-[90%] w-[90%] sm:h-[100%] h-[90%] relative z-[5]"
+          className="sm:w-[100%] w-[90%] sm:h-[100%] h-[90%] relative z-[5]"
           priority={true}
         />
 

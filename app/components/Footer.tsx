@@ -1,4 +1,4 @@
-import { logofull } from "../../public";
+import { logo } from "../../public";
 import { footerLinks, socialMedia } from "../constants";
 import Image from "next/image";
 
@@ -7,7 +7,7 @@ const Footer = () => (
     <div className="flexStart md:flex-row flex-col mb-8 w-full">
       <div className="flex-[1] flex flex-col justify-start mr-10">
         <Image
-          src={logofull}
+          src={logo}
           alt="hoobank"
           width={266}
           height={72.14}
@@ -15,7 +15,7 @@ const Footer = () => (
           className="object-contain"
         />
         <p className="paragraph mt-4 max-w-[312px]">
-          A new way to be the always-ready, confident and well-prepared person.
+          A new way to make the payments easy, reliable and secure.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ const Footer = () => (
 
     <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3F3E45]">
       <p className="font-poppins font-normal text-center text-[18px] leading-[27px] text-white">
-        Copyright Ⓒ 2025 MockMate. All Rights Reserved.
+        Copyright Ⓒ 2022 HooBank. All Rights Reserved.
       </p>
 
       <div className="flex flex-row md:mt-0 mt-6">

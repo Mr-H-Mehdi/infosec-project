@@ -49,12 +49,13 @@ const Business = () => (
       viewport={{ once: true }}
     >
       <h2 className="heading2">
-        You do the preparation, <br className="sm:block hidden" /> we&#8217;ll
-        handle the questions.
+        You do the business, <br className="sm:block hidden" /> we&#8217;ll
+        handle the money.
       </h2>
       <p className="paragraph max-w-[470px] mt-5">
-        With MockMate, you can improve your preparation by
-        customizing according to your needs and your niche. The rest is all preparations.
+        With the right credit card, you can improve your financial life by
+        building credit, earning rewards and saving money. But with hundreds of
+        credit cards on the market.
       </p>
 
       <Button styles={`mt-10`} />

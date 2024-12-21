@@ -1,5 +1,5 @@
 "use client";
-import { accessibility, apple, bill, google } from "../../public";
+import { apple, bill, google } from "../../public";
 import { slideIn } from "../styles/animations";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -14,8 +14,8 @@ const Billing = () => (
       viewport={{ once: true }}
     >
       <Image
-        src={accessibility}
-        alt="accessibility"
+        src={bill}
+        alt="billing"
         width={0}
         height={0}
         className="w-[100%] h-[100%] relative z-[5]"
@@ -35,10 +35,12 @@ const Billing = () => (
       viewport={{ once: true }}
     >
       <h2 className="heading2">
-        Easily access <br className="sm:block hidden" /> anywhere
+        Easily control your <br className="sm:block hidden" /> billing &
+        invoicing
       </h2>
       <p className="paragraph max-w-[470px] mt-5">
-        Access MockMate via website anywhere, anytime as you feel like it. It is highly optimized for all the browsers and platforms.
+        Elit enim sed massa etiam. Mauris eu adipiscing ultrices ametodio aenean
+        neque. Fusce ipsum orci rhoncus aliporttitor integer platea placerat.
       </p>
 
       <div className="flex flex-row flex-wrap sm:mt-10 mt-6">

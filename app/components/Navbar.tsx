@@ -5,7 +5,6 @@ import { navVariants } from "../styles/animations";
 import Image from "next/image";
 import { close, logo, menu } from "../../public";
 import { navLinks } from "../constants";
-import Button from "./Button";
 
 const Navbar = () => {
   const [active, setActive] = useState("Home");
@@ -19,7 +18,8 @@ const Navbar = () => {
       whileInView="show"
       viewport={{ once: true }}
     >
-      <Image src={logo} alt="hoobank" width={60} height={60} loading="eager" />
+      <Image src={logo} alt="hoobank" width={124} height={32} loading="eager" />
+
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
         {navLinks.map((nav, index) => (
           <li
@@ -65,7 +65,6 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <Button styles={""}></Button>
     </motion.nav>
   );
 };

@@ -9,8 +9,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "MockMate",
-  description: "The Next Generation Interview Prep",
+  title: "Hoobank",
+  description: "The Next Generation Banking",
 };
 
 export default function RootLayout({
