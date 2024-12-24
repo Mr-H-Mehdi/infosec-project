@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react"; // Import useState hook
+import { useState, useEffect } from "react"; // Import useState and useEffect
 import {
   Navbar,
   Hero,
@@ -22,9 +22,24 @@ export default function Home() {
   // State to manage login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Check if there's a token in localStorage on initial load
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // Retrieve token from localStorage
+    if (token) {
+      setIsLoggedIn(true); // If a token exists, mark the user as logged in
+    }
+  }, []); // Run only once when the component mounts
+
   // Handle successful login
-  const handleLogin = () => {
+  const handleLogin = (token: string) => {
+    localStorage.setItem("token", token); // Save the token to localStorage
     setIsLoggedIn(true); // Set logged-in status to true
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token from localStorage
+    setIsLoggedIn(false); // Set logged-in status to false
   };
 
   return (
@@ -86,6 +101,14 @@ export default function Home() {
               <Footer />
             </section>
           </section>
+
+          {/* Logout button */}
+          <button
+            onClick={handleLogout}
+            className="absolute top-5 right-5 bg-red-500 text-white px-4 py-2 rounded-md"
+          >
+            Logout
+          </button>
         </>
       )}
     </main>

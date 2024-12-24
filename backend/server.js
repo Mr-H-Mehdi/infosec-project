@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import authRoutes from './routes/auth.js'; // Import the auth route file
+import dotenv from 'dotenv';
+dotenv.config();  // This will load the .env file into process.env
 
 const app = express();
 
