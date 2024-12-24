@@ -18,21 +18,23 @@ export default function Login({ onLogin }) {
         password,
       });
 
-      if (response.data.message === 'Authentication successful') {
-        // If credentials are correct, call onLogin to indicate successful login
+      console.log("Done1");
+      console.log(response.data.message);
+      if (response.data.message === 'Login successful') {
+        // If credentials are correct, call onLogin to indicate successful login        
         onLogin();
       } else {
         // If authentication fails, show the error message
         setError(response.data.message || 'Invalid login credentials. Please try again.');
       }
     } catch (error) {
-      setError('An error occurred. Please try again later.');
+      setError('Could not sign you in. Please try again.');
       console.error(error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-6 py-12 bg-primary">
+    <div className="flex items-center justify-center min-h-screen  bg-primary ">
       <div className="max-w-md w-full p-8 rounded-lg shadow-xl space-y-6 bg-gray-800">
         <h2 className="text-3xl font-bold text-center text-white">Welcome Back</h2>
 
@@ -90,10 +92,6 @@ export default function Login({ onLogin }) {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-400">
-          Don't have an account? 
-          <a href="#" className="text-primary hover:underline">Sign up</a>
-        </p>
       </div>
     </div>
   );
