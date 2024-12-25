@@ -56,7 +56,7 @@ export const login = [
       await sendOTPEmail(user.email, otp);  // Send OTP to the user's email
 
       // Store OTP in the session or database temporarily for verification
-      user.otp = otp; 
+      user.otp = otp;
       await user.save();
 
       // Send response asking for OTP
@@ -116,5 +116,47 @@ export const verifyOTP = async (req, res) => {
   } catch (error) {
     console.error('OTP verification error:', error);
     res.status(500).json({ message: 'Error verifying OTP. Please try again.' });
+  }
+};
+
+// Handle Web3 login (using MetaMask)
+export const web3Login = async (req, res) => {
+  const { address } = req.body;
+
+  try {
+    // Check if user exists with the provided Ethereum address
+    let user = await User.findOne({ web3Address: address });
+
+    if (!user) {
+      // If user does not exist, create a new user with the provided Ethereum address
+      user = new User({
+        web3Address: address,
+        username: `user_${address.slice(0, 6)}`,  // Assign a default username (you can ask user to set one later)
+      });
+      await user.save();
+    }
+
+    // Create JWT token
+    const payload = {
+      userId: user._id,
+      email: user.email,
+    };
+
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not defined in .env file");
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+    // Return success response with JWT token
+    res.status(200).json({
+      message: 'Web3 login successful',
+      token,  // Send token as part of response
+    });
+
+  } catch (error) {
+    console.error('Web3 login error:', error);
+    res.status(500).json({ message: 'Error during Web3 login. Please try again.' });
   }
 };

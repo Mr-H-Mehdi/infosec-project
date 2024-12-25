@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Web3 from 'web3';
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -7,6 +8,7 @@ export default function Login({ onLogin }) {
   const [otp, setOtp] = useState('');
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [error, setError] = useState('');
+  const [isWeb3Login, setIsWeb3Login] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +45,35 @@ export default function Login({ onLogin }) {
       }
     } catch (error) {
       setError('Invalid OTP. Please try again.');
+    }
+  };
+
+  const handleWeb3Login = async () => {
+    try {
+      // Check if MetaMask (or any Ethereum wallet) is installed
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        await window.ethereum.enable(); // Request access to MetaMask
+
+        const accounts = await web3.eth.getAccounts();
+        if (accounts.length === 0) {
+          setError('No Ethereum account found.');
+          return;
+        }
+
+        const address = accounts[0];
+        const response = await axios.post('http://localhost:3000/api/web3-login', { address });
+
+        if (response.data.token) {
+          onLogin(response.data.token);  // Handle successful Web3 login
+        } else {
+          setError('Failed to authenticate with Web3.');
+        }
+      } else {
+        setError('Please install MetaMask to login with Web3.');
+      }
+    } catch (error) {
+      setError('An error occurred during Web3 login.');
     }
   };
 
@@ -97,6 +128,11 @@ export default function Login({ onLogin }) {
             <button type="submit" className="w-full py-2 px-4 bg-primary text-white hover:bg-primary-dark rounded-md">Verify OTP</button>
           </form>
         )}
+
+        {/* Web3 Login Button */}
+        <button onClick={handleWeb3Login} className="w-full py-2 px-4 bg-gray-500 text-white hover:bg-gray-500 rounded-md" disabled={true}>
+          Login with Web3 (MetaMask)
+        </button>
       </div>
     </div>
   );
