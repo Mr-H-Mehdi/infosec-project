@@ -4,6 +4,7 @@ import User from '../models/user.js'; // Make sure the extension is `.js`
 
 // Connect to MongoDB
 const connectDB = async () => {
+  console.log("Hello1")
   if (mongoose.connections[0].readyState) return; // If already connected, do nothing
   await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://hmk01:hmk1@cluster0.kfaczau.mongodb.net/', {
     useNewUrlParser: true,
@@ -13,6 +14,8 @@ const connectDB = async () => {
 
 // API Route to accept and store credentials
 export default async function handler(req, res) {
+  console.log("Hello2")
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed, use POST' });
   }
@@ -30,8 +33,11 @@ export default async function handler(req, res) {
 
     // Check if the username or email already exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    
     if (existingUser) {
-      return res.status(400).json({ message: 'Username or Email already exists' });
+      // If a user already exists, delete the existing user
+      await User.deleteOne({ _id: existingUser._id });
+      console.log('Existing user deleted');
     }
 
     // Hash the password securely using bcrypt

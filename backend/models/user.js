@@ -2,19 +2,21 @@ import mongoose from 'mongoose';
 
 // Create the schema for the user
 const UserSchema = new mongoose.Schema({
-  username: {
+  email: {
     type: String,
     required: true,
-    unique: true, // Ensure usernames are unique
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
-  email: {
+  username: {
     type: String,
     required: true,
-    unique: true, // Ensure email is unique
+  },
+  otp: {
+    type: String,  // Store the OTP temporarily for verification
   },
 });
 
