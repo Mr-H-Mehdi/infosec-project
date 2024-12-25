@@ -3,8 +3,10 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import rateLimit from 'express-rate-limit';
 import { body, validationResult } from 'express-validator';
-import { sendOTPEmail } from '../utils/otpService.js';  // A utility function for sending OTP
-import { generateOTP } from '../utils/otpGenerator.js';  // A utility function for generating OTP
+import { sendOTPEmail, send2FATokenEmail } from '../utils/otpService.js';  // A utility function for sending OTP and 2FA tokens
+import { generateOTP, generate2FAToken } from '../utils/otpGenerator.js';  // A utility function for generating OTP and 2FA tokens
+import { getClientIp } from 'request-ip';  // To get the client's IP address for security validation
+import { generateDeviceFingerprint } from '../utils/deviceFingerprint.js';  // Device fingerprinting utility
 
 // Regex to detect potential malicious scripts or SQL injection attempts
 const maliciousInputRegex = /(<([^>]+)>|--|;|\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|TRUNCATE)\b|\/\*|\*\/|eval\(|<script|<\/script>)/i;
@@ -29,30 +31,67 @@ export const login = [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { email, password, deviceId } = req.body;  // Added deviceId for fingerprinting
+    const clientIp = getClientIp(req);  // Capture the client's IP address
+    console.log("Client IP: ", clientIp);  // Log the client's IP address
+    console.log("Client deviceId: ", deviceId);  // Log the client's IP address
 
     // Check if email or password contains potentially malicious input
     if (maliciousInputRegex.test(email) || maliciousInputRegex.test(password)) {
+      console.log("Malicious input detected in login request"); // Log malicious input detection
       return res.status(400).json({ message: 'Suspicious activity detected. Please contact the helpline for assistance.' });
     }
 
     try {
       // Find the user by email
       const user = await User.findOne({ email });
+      console.log("User found: ", user ? user.email : 'No user found'); // Log user information
 
-      if (!user) {
+      if (user == null) {
+        console.log("Invalid login credentials: No matching user found."); // Log invalid credentials scenario
         return res.status(400).json({ message: 'Invalid login credentials' });
+      }
+      
+      // Check if the device fingerprint matches (for added security)
+      const deviceFingerprint = generateDeviceFingerprint(deviceId);
+      console.log("Device fingerprint generated: ", deviceFingerprint); // Log device fingerprint
+      console.log("User's device fingerprint: ", user.deviceFingerprint); // Log the user's stored device fingerprint
+
+      
+      if (deviceId!=undefined && deviceId != deviceFingerprint) {
+        console.log("Device mismatch detected: Unrecognized device"); // Log device mismatch
+        return res.status(400).json({ message: 'Unrecognized device. Please verify your identity.' });
+      }
+      if (user.deviceFingerprint != deviceFingerprint) {
+        console.log("Device mismatch detected: Unrecognized device"); // Log device mismatch
+        return res.status(400).json({ message: 'Unrecognized device. Please verify your identity.' });
       }
 
       // Compare the entered password with the stored hashed password
       const isMatch = await bcrypt.compare(password, user.password);
+      console.log("Password match result: ", isMatch);  // Log password match result
 
       if (!isMatch) {
+        console.log("Invalid login credentials: Password mismatch");  // Log password mismatch
         return res.status(400).json({ message: 'Invalid login credentials' });
       }
 
-      // Generate an OTP and send it to the user's email
+      // Check if the client's IP address has changed since the last login
+      if (user.lastLoginIp && user.lastLoginIp !== clientIp) {
+        console.log("IP address mismatch detected: Sending 2FA token");  // Log IP mismatch and 2FA token sending
+        const twoFAToken = generate2FAToken();
+        await send2FATokenEmail(user.email, twoFAToken);  // Send 2FA token to user's email
+        user.twoFAToken = twoFAToken;
+        await user.save();
+
+        return res.status(200).json({
+          message: 'Unusual login detected. A 2FA token has been sent to your email.',
+        });
+      }
+
+      // Generate OTP and send it to the user's email (standard 2FA)
       const otp = generateOTP();
+      console.log("OTP generated: ", otp);  // Log OTP generation
       await sendOTPEmail(user.email, otp);  // Send OTP to the user's email
 
       // Store OTP in the session or database temporarily for verification
@@ -60,6 +99,7 @@ export const login = [
       await user.save();
 
       // Send response asking for OTP
+      console.log("OTP sent to user email: ", user.email); // Log OTP email sending
       res.status(200).json({
         message: 'OTP sent to your email. Please enter the OTP to complete login.',
         user: {
@@ -78,11 +118,13 @@ export const login = [
 // Handle OTP verification
 export const verifyOTP = async (req, res) => {
   const { email, otp } = req.body;
+  console.log("OTP verification requested for: ", email);  // Log OTP verification request
 
   try {
     const user = await User.findOne({ email });
 
     if (!user || user.otp !== otp) {
+      console.log("Invalid OTP for user: ", email); // Log invalid OTP scenario
       return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
     }
 
@@ -104,6 +146,7 @@ export const verifyOTP = async (req, res) => {
     await user.save();
 
     // Return success response with JWT token
+    console.log("OTP verified successfully, JWT token generated");  // Log successful OTP verification
     res.status(200).json({
       message: 'Login successful',
       user: {
@@ -121,11 +164,13 @@ export const verifyOTP = async (req, res) => {
 
 // Handle Web3 login (using MetaMask)
 export const web3Login = async (req, res) => {
-  const { address } = req.body;
+  const { address, deviceId } = req.body;  // Capture deviceId for Web3 login
+  console.log("Web3 login requested for address: ", address);  // Log Web3 login request
 
   try {
     // Check if user exists with the provided Ethereum address
     let user = await User.findOne({ web3Address: address });
+    console.log("User found with Web3 address: ", user ? user.web3Address : 'No user found'); // Log Web3 user search
 
     if (!user) {
       // If user does not exist, create a new user with the provided Ethereum address
@@ -134,9 +179,18 @@ export const web3Login = async (req, res) => {
         username: `user_${address.slice(0, 6)}`,  // Assign a default username (you can ask user to set one later)
       });
       await user.save();
+      console.log("New user created with Web3 address: ", address);  // Log new user creation
     }
 
-    // Create JWT token
+    // Check if the device fingerprint matches for additional security
+    const deviceFingerprint = generateDeviceFingerprint(deviceId);
+    console.log("Device fingerprint generated for Web3 login: ", deviceFingerprint); // Log Web3 device fingerprint
+    if (user.deviceFingerprint !== deviceFingerprint) {
+      console.log("Device mismatch detected for Web3 login");  // Log device mismatch during Web3 login
+      return res.status(400).json({ message: 'Unrecognized device. Please verify your identity.' });
+    }
+
+    // Create JWT token for Web3 login
     const payload = {
       userId: user._id,
       email: user.email,
@@ -150,6 +204,7 @@ export const web3Login = async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
 
     // Return success response with JWT token
+    console.log("Web3 login successful, JWT token generated");  // Log successful Web3 login
     res.status(200).json({
       message: 'Web3 login successful',
       token,  // Send token as part of response
