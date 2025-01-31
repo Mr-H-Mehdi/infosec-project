@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(cors()); // You can restrict this if needed
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://hmk01:hmk1@cluster0.kfaczau.mongodb.net/', {
+mongoose.connect('MongoDBLinkConnectorString/', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
