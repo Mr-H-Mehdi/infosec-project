@@ -4,27 +4,22 @@
 
 
 
-This was my first project using Vite. Initially made using tutorial of [JavaScipt Mastery](https://youtu.be/_oO4Qi5aVZs?si=uIWyu_1FoElOJueH). Now it is made on next js using typescript.
-Features added other than Tutorial:-
-- Upgraded from Node.JS to Bun.JS (A Faster JavaScript Runtime).
-- Upgraded from JavaScript to TypeScript.
-- Upgraded from React.JS to Next.JS.
-- Added Fluid Animations using Framer-Motion.
-- Removed unused CSS and Optimized Code.
+This project was built as Information Security semester project by Hussain Mehdi Kazmi, Bachelors of Software Engineering 2021-25, NUST.
+
+In this project, I tried to implement a new kind of email, password login with 2FA. I generated device fingerprints for all unique devices, logged and monitored IP addresses and validate extensively each and every user.
 
 ### Link to Figma File:
 
 <p align="left">
   <a href="https://skillicons.dev">
-    <a href="https://www.figma.com/file/1Pn7NYsX8vZWqYVKiSCttf/HooBank?type=design&mode=design&t=tERqTJLmLvS6Vbo8-1">
+    <a href="NotBuiltYet.com">
       <img src="https://skillicons.dev/icons?i=figma" />
     </a>
   </a>
 </p>
 
-A website which is a product page of a Bank displaying its products features, clients , feedbacks and many more.
+A website which is a product page of a Bank displaying its products features, clients , feedbacks and many more. Then, backend was integrated to build a new 3FA based login system. Web3 blockchain based login option is also made available through MetaTask app.
 
-### The project is hosted on Vercel : [Hoobank](https://hoobank-alpha-nine.vercel.app/)
 
 ## :star: Give A Star
 
@@ -51,19 +46,34 @@ Before you start, make sure you have the following software installed on your co
 2. Navigate to the project directory
 
 ```bash
-  cd Project_Hoobank
+  cd infosec-project
 ```
 3. Install the necessary dependencies
 ```bash
   npm install
 ```
 
-4. Start the development server
+4. Navigate to backend directory
+```bash
+  cd backend
+```
+
+5. Install backend dependencies
+```bash
+  npm install
+```
+
+6. Start the backend server (on port localhost:3000, fron directory infosec-project/backend/)
+```bash
+  node server.js
+```
+
+7. Start the frontend server (from directory infosec-project/)
 ```bash
   npm start
 ```
 
-The website should now be up and running on http://localhost:3000.
+The frontend should now be up and running on http://localhost:3001 (or other if it is busy).
 
 ## 🏠 Built With:
 
@@ -71,49 +81,50 @@ The website should now be up and running on http://localhost:3000.
 
 ## 🛠 Skills
 
-[![My Skills](https://skillicons.dev/icons?i=html,css,js,ts,react,nextjs,figma)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=html,css,js,nodejs,express,ts,react,nextjs,flutter)](https://skillicons.dev)
 
 ## 🚀 About Me
 Specializations:
 - UI/UX Design.
-- Web Development
+- Web Development.
+- App Development (Flutter)
 
 ## 🙋‍♂️ Connect With Me
 
 <p align="left">
   <a href="https://skillicons.dev">
-    <a href="https://github.com/omunite215">
+    <a href="https://github.com/Mr-H-Mehdi">
       <img src="https://skillicons.dev/icons?i=github" />
     </a>
   </a>
    <a href="https://skillicons.dev">
-    <a href="https://www.linkedin.com/in/om-patel-401068143/">
+    <a href="https://www.linkedin.com/in/hm-kazmi/">
       <img src="https://skillicons.dev/icons?i=linkedin" />
     </a>
   </a>
   <a href="https://skillicons.dev">
-    <a href="https://www.instagram.com/_21omp/">
+    <a href="https://www.instagram.com/hmkazmi14/">
       <img src="https://skillicons.dev/icons?i=instagram" />
     </a>
   </a>
    <a href="https://skillicons.dev">
-    <a href="https://portfoliobyom.netlify.app/">
+    <a href="https://NotBuiltYet.com/">
       <img src="https://skillicons.dev/icons?i=devto" />
     </a>
   </a>
 </p>
 
 ## 🗒️ Authors
-- Om Patel
+- Hussain Mehdi Kazmi
 
 <p align="left">
   <a href="https://skillicons.dev">
-    <a href="https://github.com/omunite215">
+    <a href="https://github.com/Mr-H-Mehdi">
       <img src="https://skillicons.dev/icons?i=github" />
     </a>
   </a>
 </p>
 
 <p align="center">
-  <img src="https://github.com/omunite215/Hoobank/assets/78680563/30e4f274-a9ac-49cc-99a7-ee657aa9b9ee" alt="Om's Logo Image"/>
+<!--   <img src="https://github.com/omunite215/Hoobank/assets/78680563/30e4f274-a9ac-49cc-99a7-ee657aa9b9ee" alt="Om's Logo Image"/> -->
 </p>
